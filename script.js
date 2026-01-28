@@ -4,35 +4,32 @@ const curtoBt = document.querySelector('.app__card-button--curto')
 const longoBt = document.querySelector('.app__card-button--longo')
 const card = document.querySelector('.app__card')
 const starterPause = document.getElementById('start-pause')
-const img = document.querySelector(".app__image")
+const img = document.querySelector('.app__image')
 const titulo = document.querySelector('.app__title')
 const botoes = document.querySelectorAll('.app__card-button')
 const musicaInput = document.getElementById('alternar-musica')
-const musica = new Audio('/sons/luna-rise-part-one.mp3')
+
+const musica = new Audio('sons/luna-rise-part-one.mp3')
 const playAudio = new Audio('sons/play.wav')
 const pauseA = new Audio('sons/pause.mp3')
-const alerta = new Audio ('sons/beep.mp3')
+const alerta = new Audio('sons/beep.mp3')
+
 const timerArea = document.getElementById('timer')
+
 let tempoDecorrido = 1500
 let intervalo = null
-
-const foco = 1500
-const descansoCurto = 300
-const descansoLongo = 900
-
 
 musica.loop = true
 
 musicaInput.addEventListener('change', () => {
-    if(musica.paused){
+    if (musica.paused) {
         musica.play()
-    }
-    else{
+    } else {
         musica.pause()
     }
 })
 
-focoBt.addEventListener('click', () =>{
+focoBt.addEventListener('click', () => {
     tempoDecorrido = 1500
     alterarContexto('foco')
     focoBt.classList.add('active')
@@ -50,76 +47,78 @@ longoBt.addEventListener('click', () => {
     longoBt.classList.add('active')
 })
 
-function alterarContexto(contexto){
+function alterarContexto(contexto) {
     mostrarTempo()
-    botoes.forEach(function (contexto){
-        contexto.classList.remove('active')
+
+    botoes.forEach(botao => {
+        botao.classList.remove('active')
     })
+
     html.setAttribute('data-contexto', contexto)
-    img.setAttribute('src', `/imagens/${contexto}.png`)
+    img.setAttribute('src', `imagens/${contexto}.png`)
+
     switch (contexto) {
         case 'foco':
-            titulo.innerHTML = `Otimize sua produtividade,<br />
-          <strong class="app__title-strong">mergulhe no que importa.</strong>
-`
-            break;
+            titulo.innerHTML = `
+                Otimize sua produtividade,<br />
+                <strong class="app__title-strong">mergulhe no que importa.</strong>
+            `
+            break
+
         case 'descanso-curto':
-            titulo.innerHTML = `Que tal dar uma respirada?<br />
-             <strong class="app__title-strong"> Faça uma pausa curta!</strong>`
-             break;
+            titulo.innerHTML = `
+                Que tal dar uma respirada?<br />
+                <strong class="app__title-strong">Faça uma pausa curta!</strong>
+            `
+            break
 
         case 'descanso-longo':
-            titulo.innerHTML = `Hora de voltar à superfície. <br />
-            <strong class="app__title-strong">Faça uma pausa longa.</strong>`
-            break;
-        default:
-            break;
+            titulo.innerHTML = `
+                Hora de voltar à superfície.<br />
+                <strong class="app__title-strong">Faça uma pausa longa.</strong>
+            `
+            break
     }
 }
 
 const contagemRegressiva = () => {
-    if(tempoDecorrido <=0){ 
+    if (tempoDecorrido <= 0) {
         alerta.play()
         zerar()
         return
-
     }
-    tempoDecorrido -= 1
+
+    tempoDecorrido--
     mostrarTempo()
 }
 
-
 starterPause.addEventListener('click', iniciarPausar)
 
-
 function iniciarPausar() {
-    if(intervalo){
+    if (intervalo) {
         zerar()
         pauseA.play()
-        starterPause.textContent = "Começar"
+        starterPause.textContent = 'Começar'
         return
     }
+
     intervalo = setInterval(contagemRegressiva, 1000)
     playAudio.play()
-    starterPause.textContent = "Pausar"
+    starterPause.textContent = 'Pausar'
 }
 
-function zerar(){
+function zerar() {
     clearInterval(intervalo)
     intervalo = null
     tempoDecorrido = 1500
+    mostrarTempo()
 }
 
 function mostrarTempo() {
     const minutos = Math.floor(tempoDecorrido / 60)
     const segundos = tempoDecorrido % 60
 
-    const minutosFormatados = String(minutos).padStart(2, '0')
-    const segundosFormatados = String(segundos).padStart(2, '0')
-
-    timerArea.innerHTML = `${minutosFormatados}:${segundosFormatados}`
-
-
+    timerArea.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`
 }
 
 mostrarTempo()
