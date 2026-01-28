@@ -1,4 +1,4 @@
-//codigo atualizado
+// codigo atualizado (corrigido)
 
 const html = document.querySelector('html')
 const focoBt = document.querySelector('.app__card-button--foco')
@@ -11,10 +11,11 @@ const titulo = document.querySelector('.app__title')
 const botoes = document.querySelectorAll('.app__card-button')
 const musicaInput = document.getElementById('alternar-musica')
 
-const musica = new Audio('sons/luna-rise-part-one.mp3')
-const playAudio = new Audio('sons/play.wav')
-const pauseA = new Audio('sons/pause.mp3')
-const alerta = new Audio('sons/beep.mp3')
+/* 🔴 CAMINHOS CORRIGIDOS */
+const musica = new Audio('./sons/luna-rise-part-one.mp3')
+const playAudio = new Audio('./sons/play.wav')
+const pauseA = new Audio('./sons/pause.mp3')
+const alerta = new Audio('./sons/beep.mp3')
 
 const timerArea = document.getElementById('timer')
 
@@ -57,7 +58,9 @@ function alterarContexto(contexto) {
     })
 
     html.setAttribute('data-contexto', contexto)
-    img.setAttribute('src', `imagens/${contexto}.png`)
+
+    /* 🔴 CAMINHO DA IMAGEM CORRIGIDO */
+    img.setAttribute('src', `./imagens/${contexto}.png`)
 
     switch (contexto) {
         case 'foco':
@@ -120,7 +123,8 @@ function mostrarTempo() {
     const minutos = Math.floor(tempoDecorrido / 60)
     const segundos = tempoDecorrido % 60
 
-    timerArea.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`
+    timerArea.textContent =
+        `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`
 }
 
 mostrarTempo()
